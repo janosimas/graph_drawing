@@ -7,27 +7,34 @@
 
 #include "graph.hpp"
 
-using namespace Magnum;
+#include <memory>
+#include <iostream>
 
-class MyApplication: public Platform::Application {
+class MyApplication: public Magnum::Platform::Application {
     public:
         explicit MyApplication(const Arguments& arguments);
         void mousePressEvent(MouseEvent& event) override;
 
     private:
         void drawEvent() override;
-        GraphDraw graph;
+        std::unique_ptr<GraphDraw> graph;
 };
 
 MyApplication::MyApplication(const Arguments& arguments):
-  Platform::Application{arguments},
-  graph("/home/janosimas/off-devel/magnum-bootstrap/src/ash85.mtx")
+  Magnum::Platform::Application{arguments}
 {
   using namespace Magnum::Math::Literals;
 
-  Renderer::setClearColor(0xffffff_srgbf);
-  Debug() << "Hello! This application is running on" << Context::current().version()
-          << "using" << Context::current().rendererString();
+  if(arguments.argc != 2) {
+    std::cout << "Expected graph file as parameter...\n";
+    throw std::invalid_argument("One argument expected.");
+  }
+
+  graph = std::make_unique<GraphDraw>(arguments.argv[1]);
+
+  Magnum::Renderer::setClearColor(0xffffff_srgbf);
+  Magnum::Debug() << "Hello! This application is running on" << Magnum::Context::current().version()
+                  << "using" << Magnum::Context::current().rendererString();
 }
 
 void MyApplication::mousePressEvent(MouseEvent& ) {
@@ -35,10 +42,10 @@ void MyApplication::mousePressEvent(MouseEvent& ) {
 };
 
 void MyApplication::drawEvent() {
-    defaultFramebuffer.clear(FramebufferClear::Color);
+    Magnum::defaultFramebuffer.clear(Magnum::FramebufferClear::Color);
 
-    Debug() << "Draw!\n";
-    graph.draw();
+    Magnum::Debug() << "Draw!\n";
+    graph->draw();
 
     swapBuffers();
 }

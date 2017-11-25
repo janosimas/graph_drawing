@@ -9,9 +9,9 @@
 #include <Magnum/Platform/Sdl2Application.h>
 
 GraphDraw::GraphDraw(const std::string& graphFile) {
-  Magnum::Debug() << graphFile;
-
   std::fstream file(graphFile, std::ios_base::in);
+  if(!file.is_open())
+    throw std::invalid_argument("Invalid argument. File not found.\n");
 
   std::string header;
   // header
