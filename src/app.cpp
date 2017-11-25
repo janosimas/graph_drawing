@@ -35,7 +35,6 @@ void MyApplication::drawEvent() {
     defaultFramebuffer.clear(FramebufferClear::Color);
 
     triangle.draw();
-    Debug() << "here";
 
     swapBuffers();
 }
