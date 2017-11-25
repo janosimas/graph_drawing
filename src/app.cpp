@@ -25,7 +25,7 @@ MyApplication::MyApplication(const Arguments& arguments):
 {
   using namespace Magnum::Math::Literals;
 
-  // Renderer::setClearColor(Color3::fromHsv(216.0_degf, 0.85f, 1.0f));
+  Renderer::setClearColor(0xffffff_srgbf);
   Debug() << "Hello! This application is running on" << Context::current().version()
           << "using" << Context::current().rendererString();
 }
