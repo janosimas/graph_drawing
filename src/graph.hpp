@@ -64,8 +64,8 @@ private:
       Magnum::Color3 color;
   };
 
-  int _nodesNumber;
-  int _edgesNumber;
+  size_t _nodesNumber;
+  size_t _edgesNumber;
   Graph<Node, Edge> _graph;
   std::map<Node, std::pair<float, float>> _nodeXY;
 };
