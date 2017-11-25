@@ -5,7 +5,7 @@
 #include <Magnum/Version.h>
 #include <Magnum/Math/Color.h>
 
-#include "triangle.hpp"
+#include "graph.hpp"
 
 using namespace Magnum;
 
@@ -16,10 +16,13 @@ class MyApplication: public Platform::Application {
 
     private:
         void drawEvent() override;
-        Triangle triangle;
+        GraphDraw graph;
 };
 
-MyApplication::MyApplication(const Arguments& arguments): Platform::Application{arguments} {
+MyApplication::MyApplication(const Arguments& arguments):
+  Platform::Application{arguments},
+  graph("/home/janosimas/off-devel/magnum-bootstrap/src/ash85.mtx")
+{
   using namespace Magnum::Math::Literals;
 
   // Renderer::setClearColor(Color3::fromHsv(216.0_degf, 0.85f, 1.0f));
@@ -34,7 +37,8 @@ void MyApplication::mousePressEvent(MouseEvent& ) {
 void MyApplication::drawEvent() {
     defaultFramebuffer.clear(FramebufferClear::Color);
 
-    triangle.draw();
+    Debug() << "Draw!\n";
+    graph.draw();
 
     swapBuffers();
 }
