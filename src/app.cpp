@@ -38,8 +38,8 @@ MyApplication::MyApplication(const Arguments& arguments):
 }
 
 void MyApplication::mousePressEvent(MouseEvent& ) {
-  drawEvent();
-};
+  redraw();
+}
 
 void MyApplication::drawEvent() {
     Magnum::defaultFramebuffer.clear(Magnum::FramebufferClear::Color);
