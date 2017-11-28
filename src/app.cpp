@@ -5,7 +5,8 @@
 #include <Magnum/Version.h>
 #include <Magnum/Math/Color.h>
 
-#include "graph.hpp"
+#include "graphDraw.hpp"
+#include "reader/matrixMarket.hpp"
 
 #include <memory>
 #include <iostream>
@@ -30,7 +31,7 @@ MyApplication::MyApplication(const Arguments& arguments):
     throw std::invalid_argument("One argument expected.");
   }
 
-  graph = std::make_unique<GraphDraw>(arguments.argv[1]);
+  graph = reader::MatrixMarket(arguments.argv[1]);
 
   Magnum::Renderer::setClearColor(0xffffff_srgbf);
   Magnum::Debug() << "Hello! This application is running on" << Magnum::Context::current().version()

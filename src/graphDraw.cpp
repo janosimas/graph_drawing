@@ -1,66 +1,13 @@
-#include "graph.hpp"
-
-#include <fstream>
-#include <sstream>
-#include <iostream>
+#include "graphDraw.hpp"
 
 #include <Magnum/DefaultFramebuffer.h>
 #include <Magnum/Math/Vector3.h>
 #include <Magnum/Platform/Sdl2Application.h>
 
-GraphDraw::GraphDraw(const std::string& graphFile) {
-  std::fstream file(graphFile, std::ios_base::in);
-  if(!file.is_open())
-    throw std::invalid_argument("Invalid argument. File not found.\n");
-
-  std::string header;
-  // header
-  std::getline(file, header);
-
-  // matrix info
-  std::string info;
-  std::getline(file, info);
-  std::stringstream infos(info);
-  infos >> _nodesNumber; infos >> _nodesNumber;
-  infos >> _edgesNumber; _edgesNumber-=_nodesNumber;
-
-  std::set<int> nodes;
-  for (std::string line; std::getline(file, line); ) {
-    std::stringstream ss(line);
-    int n1, n2;
-    ss >> n1;
-    ss >> n2;
-
-    // Magnum::Debug() << n1 << n2;
-    if(n1 == n2) continue;
-
-    decltype(_graph.nodes.begin()) node1, node2;
-    if(nodes.find(n1) == nodes.cend()) {
-      node1 = _graph.add_node(Node(n1));
-      nodes.insert(n1);
-    } else {
-      for(auto it = _graph.nodes.begin(); it != _graph.nodes.end(); ++it) {
-        if(it->id() == n1)
-          node1 = it;
-      }
-    }
-
-    if(nodes.find(n2) == nodes.cend()) {
-      node2 = _graph.add_node(Node(n2));
-      nodes.insert(n2);
-    } else {
-      for(auto it = _graph.nodes.begin(); it != _graph.nodes.end(); ++it) {
-        if(it->id() == n2)
-          node2 = it;
-      }
-    }
-
-    _graph.add_edge(Edge(), node1, node2);
-  }
-}
+GraphDraw::GraphDraw(const MyGraph& graph) : _graph(graph){}
 
 std::pair<float, float> GraphDraw::coordinates(const Node& node) {
-  auto diff = (2.*3.14)/_nodesNumber;
+  auto diff = (2.*3.14)/_graph.nodes.size();
 
   auto it = _nodeXY.find(node);
   if(it == _nodeXY.end()) {
@@ -81,11 +28,8 @@ void GraphDraw::draw() {
   using namespace Magnum;
   using namespace Math::Literals;
 
-  Magnum::Debug() << "Number of nodes: " << _graph.nodes.size() << _nodesNumber;
-  Magnum::Debug() << "Number of edges: " << _graph.edges.size() << _edgesNumber;
-
-  std::vector<Vertex> vNodes; vNodes.reserve(_nodesNumber);
-  std::vector<Vertex> vEdges; vEdges.reserve(_edgesNumber*2);
+  std::vector<Vertex> vNodes; vNodes.reserve(_graph.nodes.size());
+  std::vector<Vertex> vEdges; vEdges.reserve(_graph.edges.size()*2);
   for(auto node = _graph.nodes.begin(); node != _graph.nodes.end(); ++node) {
     auto xy = coordinates(*node);
     vNodes.emplace_back(Vertex{{xy.first, xy.second}, 0xff0000_srgbf});
