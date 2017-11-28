@@ -13,7 +13,7 @@
 class GraphDraw
 {
 public:
-  explicit GraphDraw(const MyGraph& graph);
+  explicit GraphDraw(const BaseGraph& graph);
 
   ~GraphDraw() = default;
   GraphDraw(const GraphDraw& other) = default;
@@ -37,9 +37,7 @@ private:
       Magnum::Color3 color;
   };
 
-  size_t _nodesNumber;
-  size_t _edgesNumber;
-  MyGraph _graph;
+  BaseGraph _graph;
   std::map<Node, std::pair<float, float>> _nodeXY;
 };
 

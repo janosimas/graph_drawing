@@ -18,7 +18,7 @@ std::unique_ptr<GraphDraw> reader::MatrixMarket(const std::string& graphFile) {
   std::getline(file, info);
   std::stringstream infos(info);
 
-  MyGraph graph;
+  BaseGraph graph;
   std::set<int> nodes;
   for (std::string line; std::getline(file, line); ) {
     std::stringstream ss(line);

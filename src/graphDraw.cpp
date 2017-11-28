@@ -4,7 +4,7 @@
 #include <Magnum/Math/Vector3.h>
 #include <Magnum/Platform/Sdl2Application.h>
 
-GraphDraw::GraphDraw(const MyGraph& graph) : _graph(graph){}
+GraphDraw::GraphDraw(const BaseGraph& graph) : _graph(graph){}
 
 std::pair<float, float> GraphDraw::coordinates(const Node& node) {
   auto diff = (2.*3.14)/_graph.nodes.size();

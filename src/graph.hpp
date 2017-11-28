@@ -36,6 +36,6 @@ public:
 
 };
 
-using MyGraph = Graph<Node, Edge>;
+using BaseGraph = Graph<Node, Edge>;
 
 #endif // GRAPH
